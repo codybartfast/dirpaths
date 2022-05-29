@@ -5,21 +5,20 @@ public static partial class DirPaths
     static DirPaths()
     {
         AppRoot = new DirPath("AppRoot");
-        SetAppRootPath(DirPreset.Base);
+        SetAppRootPath(DirPreset.Current);
     }
 
     public static DirPath AppRoot { get; }
 
-    public static void SetAppRootPath(params string?[] paths)
+    public static bool SetAppRootPath(params string?[] paths)
     {
-        foreach (var path in paths)
+        var path = paths.FirstNonNull();
+        if (path is not null)
         {
-            if (path is not null)
-            {
-                AppRoot.Path = path;
-                return;
-            }
+            AppRoot.Path = path;
+            return true;
         }
+        return false;
     }
 
     public class DirPath
@@ -67,9 +66,11 @@ public static partial class DirPaths
         }
         public string CheckedPath
         {
-            get { 
+            get
+            {
                 var path = Path;
-                if(!Directory.Exists(path)){
+                if (!Directory.Exists(path))
+                {
                     Directory.CreateDirectory(path);
                 }
                 return path;

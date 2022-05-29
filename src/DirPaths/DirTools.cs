@@ -2,6 +2,18 @@ namespace Fmbm.DirPaths;
 
 public static class DirTools
 {
+    internal static string? FirstNonNull(this string?[] strings)
+    {
+        foreach (string? str in strings)
+        {
+            if (str is not null)
+            {
+                return str;
+            }
+        }
+        return null;
+    }
+
     public static bool NamesAreEqual(this string name1, string name2)
     {
         return 0 ==
