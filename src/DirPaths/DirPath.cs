@@ -1,4 +1,6 @@
-﻿namespace Bmfm;
+﻿using System;
+
+namespace Bmfm;
 
 public class DirPath
 {
@@ -23,19 +25,16 @@ public class DirPath
             }
             if (path is null)
             {
-                var errMsg =
+                var errMsg = 
                     $"Cannot get path for {Moniker} before it has not been set.";
                 throw new InvalidOperationException(errMsg);
             }
             return path;
         }
-        set
-        {
-            lock (lockObj)
-            {
-                if (pathHasBeenRead)
-                {
-                    var errMsg =
+        set{
+            lock(lockObj){
+                if(pathHasBeenRead){
+                    var errMsg = 
                         $"Cannot set path for {Moniker} to {value} after the existing value, {path}, has already been read.";
                 }
                 path = value;
