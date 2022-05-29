@@ -1,4 +1,4 @@
-namespace DirPaths.Test;
+namespace Bmfm.Test;
 
 public class UnitTest1
 {

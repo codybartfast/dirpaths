@@ -1,2 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using Bmfm;
+// See https://aka.ms/new-console-template for more information
 Console.WriteLine("Hello, World!");
+
+DirPaths.XXX();
