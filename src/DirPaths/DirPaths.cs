@@ -1,11 +1,15 @@
-namespace Fmbm.DirPaths;
+namespace Fmbm.Dir;
 
-public static partial class DirPaths
+public static class DirPaths
 {
+     static readonly object lockObj = new Object();
+    static readonly Dictionary<string, DirPath> childDirs =
+        new Dictionary<string, DirPath>();
+
     static DirPaths()
     {
         AppRoot = new DirPath("AppRoot");
-        SetAppRootPath(DirPreset.Current);
+        SetAppRootPath(RootPresets.Fmbm());
     }
 
     public static DirPath AppRoot { get; }
@@ -21,11 +25,41 @@ public static partial class DirPaths
         return false;
     }
 
-    public static void ClearAppRootPath(params string?[] paths)
+    public static void ClearAppRoot(params string?[] paths)
     {
         AppRoot.ClearPath();
     }
 
+    public static DirPath GetChildDir(string name)
+    {
+        var key = Key(name);
+        lock (lockObj)
+        {
+            if (childDirs.TryGetValue(key, out var child))
+            {
+                return child;
+            }
+            else
+            {
+                var childPath = AppRoot.Path.SubDir(name);
+                child = new DirPath(name, childPath);
+                childDirs.Add(key, child);
+                return child;
+            }
+        }
+    }
+
+    static string Key(string name)
+    {
+        return name.ToUpperInvariant().Trim();
+    }
+
+   public static DirPath ArchiveDir => GetChildDir("archive");
+    public static DirPath DataDir => GetChildDir("data");
+    public static DirPath DownloadDir => GetChildDir("download");
+    public static DirPath EtcDir => GetChildDir("etc");
+    public static DirPath LogDir => GetChildDir("log");
+    public static DirPath TempDir => GetChildDir("temp");
 
     public class DirPath
     {
@@ -33,7 +67,11 @@ public static partial class DirPaths
         bool pathHasBeenRead = false;
         readonly object lockObj = new Object();
 
-        internal DirPath(string moniker) { Moniker = moniker; }
+        internal DirPath(string moniker, string? path = null)
+        {
+            Moniker = moniker;
+            SetPath(path);
+        }
 
         internal string Moniker { get; }
 

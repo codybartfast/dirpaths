@@ -1,4 +1,4 @@
-namespace Fmbm.DirPaths;
+namespace Fmbm.Dir;
 
 public static class DirTools
 {
@@ -14,7 +14,7 @@ public static class DirTools
         return null;
     }
 
-    public static bool NamesAreEqual(this string name1, string name2)
+    internal static bool NamesAreEqual(this string name1, string name2)
     {
         return 0 ==
             StringComparer.CurrentCultureIgnoreCase.Compare(name1, name2);
@@ -80,6 +80,16 @@ public static class DirTools
         return Path.Combine(parent.FullName, name);
     }
 
+    public static string? SubDir(this string? path, string name)
+    {
+        if (path is null)
+        {
+            return null;
+        }
+        return Path.Combine(path, name);
+    }
+
+
     public static string? ExistingDebug(this string? path)
     {
 #if DEBUG
@@ -87,10 +97,9 @@ public static class DirTools
         {
             return null;
         }
-        var debugPath = path.Sibling(new DirectoryInfo(path) + "-debug");
+        var debugPath = path.Sibling(new DirectoryInfo(path).Name + "-debug");
         return Directory.Exists(debugPath) ? debugPath : path;
 #else
-        Console.WriteLine("RELEASE");
         return path;
 #endif    
     }
