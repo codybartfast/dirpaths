@@ -21,16 +21,19 @@ public static partial class DirPaths
         return false;
     }
 
+    public static void ClearAppRootPath(params string?[] paths)
+    {
+        AppRoot.ClearPath();
+    }
+
+
     public class DirPath
     {
         string? path = null;
         bool pathHasBeenRead = false;
         readonly object lockObj = new Object();
 
-        internal DirPath(string moniker)
-        {
-            Moniker = moniker;
-        }
+        internal DirPath(string moniker) { Moniker = moniker; }
 
         internal string Moniker { get; }
 
@@ -52,18 +55,29 @@ public static partial class DirPaths
             }
             set
             {
-                lock (lockObj)
-                {
-                    if (pathHasBeenRead)
-                    {
-                        var errMsg =
-                            $"Cannot set path for {Moniker} to {value} after the existing value, {path}, has already been read.";
-                        throw new InvalidOperationException(errMsg);
-                    }
-                    path = value;
-                }
+                SetPath(value);
             }
         }
+
+        void SetPath(string? newPath)
+        {
+            lock (lockObj)
+            {
+                if (pathHasBeenRead)
+                {
+                    var errMsg =
+                        $"Cannot set path for {Moniker} to {newPath} after the existing value, {path}, has already been read.";
+                    throw new InvalidOperationException(errMsg);
+                }
+                this.path = newPath;
+            }
+        }
+
+        internal void ClearPath()
+        {
+            SetPath(null);
+        }
+
         public string CheckedPath
         {
             get
@@ -76,11 +90,5 @@ public static partial class DirPaths
                 return path;
             }
         }
-
-    }
-
-    public static void XXX()
-    {
-
     }
 }
