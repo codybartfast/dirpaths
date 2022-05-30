@@ -3,7 +3,7 @@ namespace Fmbm.Dir;
 public static class DirPaths
 {
      static readonly object lockObj = new Object();
-    static readonly Dictionary<string, DirPath> childDirs =
+    static readonly Dictionary<string, DirPath> namedDirs =
         new Dictionary<string, DirPath>();
 
     static DirPaths()
@@ -30,12 +30,12 @@ public static class DirPaths
         AppRoot.ClearPath();
     }
 
-    public static DirPath GetChildDir(string name)
+    public static DirPath GetDir(string name)
     {
         var key = Key(name);
         lock (lockObj)
         {
-            if (childDirs.TryGetValue(key, out var child))
+            if (namedDirs.TryGetValue(key, out var child))
             {
                 return child;
             }
@@ -43,7 +43,7 @@ public static class DirPaths
             {
                 var childPath = AppRoot.Path.SubDir(name);
                 child = new DirPath(name, childPath);
-                childDirs.Add(key, child);
+                namedDirs.Add(key, child);
                 return child;
             }
         }
@@ -54,12 +54,12 @@ public static class DirPaths
         return name.ToUpperInvariant().Trim();
     }
 
-   public static DirPath ArchiveDir => GetChildDir("archive");
-    public static DirPath DataDir => GetChildDir("data");
-    public static DirPath DownloadDir => GetChildDir("download");
-    public static DirPath EtcDir => GetChildDir("etc");
-    public static DirPath LogDir => GetChildDir("log");
-    public static DirPath TempDir => GetChildDir("temp");
+   public static DirPath ArchiveDir => GetDir("archive");
+    public static DirPath DataDir => GetDir("data");
+    public static DirPath DownloadDir => GetDir("download");
+    public static DirPath EtcDir => GetDir("etc");
+    public static DirPath LogDir => GetDir("log");
+    public static DirPath TempDir => GetDir("temp");
 
     public class DirPath
     {
