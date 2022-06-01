@@ -2,7 +2,7 @@ namespace Fmbm.Dir;
 
 public static class DirPaths
 {
-     static readonly object lockObj = new Object();
+    static readonly object lockObj = new Object();
     static readonly Dictionary<string, DirPath> namedDirs =
         new Dictionary<string, DirPath>();
 
@@ -54,7 +54,7 @@ public static class DirPaths
         return name.ToUpperInvariant().Trim();
     }
 
-   public static DirPath ArchiveDir => GetDir("archive");
+    public static DirPath ArchiveDir => GetDir("archive");
     public static DirPath DataDir => GetDir("data");
     public static DirPath DownloadDir => GetDir("download");
     public static DirPath EtcDir => GetDir("etc");

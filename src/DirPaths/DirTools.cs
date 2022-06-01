@@ -17,7 +17,7 @@ public static class DirTools
     internal static bool NamesAreEqual(this string name1, string name2)
     {
         return 0 ==
-            StringComparer.CurrentCultureIgnoreCase.Compare(name1, name2);
+            StringComparer.InvariantCultureIgnoreCase.Compare(name1, name2);
     }
 
     public static string? NameIs(this string? path, string name)
@@ -55,7 +55,6 @@ public static class DirTools
         }
         for (var dir = new DirectoryInfo(path); dir is not null; dir = dir.Parent)
         {
-            // Console.WriteLine($"Trying... {dir}");
             if (dir.Name.NamesAreEqual(name))
             {
                 return dir.FullName;

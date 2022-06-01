@@ -10,6 +10,7 @@
                 "${workspaceFolder}/src/DirPaths.Console/DirPaths.Console.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
+                //, "-c", "Release"
             ],
             "problemMatcher": "$msCompile"
         },
