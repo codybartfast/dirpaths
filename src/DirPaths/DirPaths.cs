@@ -33,19 +33,16 @@ public static class DirPaths
     public static DirPath GetDir(string name)
     {
         var key = Key(name);
+        Console.WriteLine($"{name} -> {key}");
         lock (lockObj)
         {
-            if (namedDirs.TryGetValue(key, out var child))
-            {
-                return child;
-            }
-            else
+            if (!namedDirs.TryGetValue(key, out var child))
             {
                 var childPath = AppRoot.Path.SubDir(name);
                 child = new DirPath(name, childPath);
                 namedDirs.Add(key, child);
-                return child;
             }
+            return child;
         }
     }
 

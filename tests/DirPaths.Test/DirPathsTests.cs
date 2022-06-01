@@ -1,8 +1,18 @@
 namespace Fmbm.Dir.Test;
 
+using Xunit.Abstractions;
+using Xunit.Sdk;
 using XAssert = Xunit.Assert;
 
-public class AppRoot
+public class AlphabeticalOrderer : ITestCaseOrderer
+{
+    public IEnumerable<TTestCase> OrderTestCases<TTestCase>(
+        IEnumerable<TTestCase> testCases) where TTestCase : ITestCase =>
+        testCases.OrderBy(testCase => testCase.TestMethod.Method.Name);
+}
+
+[TestCaseOrderer("AlphabeticalOrderer", "DirPaths.Testss")]
+public class DirPathsTests
 {
     public void SetAndCheckPath()
     {
@@ -85,12 +95,12 @@ public class AppRoot
     [Fact]
     public void Compound_Test()
     {
-        var third = "Third";
+        var third = "AppRoot";
         XAssert.False(DirPaths.SetAppRootPath(null, null, null));
         DirPaths.AppRoot.Path = "Second";
         DirPaths.ClearAppRoot();
         XAssert.True(DirPaths.SetAppRootPath(null, null, third, "Fourth", null));
-        
+
         XAssert.Equal(third, DirPaths.AppRoot.Path);
 
         Action trySet = () => DirPaths.SetAppRootPath(null, "Fifth");
@@ -100,5 +110,44 @@ public class AppRoot
         var _1 = XAssert.Throws<InvalidOperationException>(tryClear);
 
         XAssert.Equal(third, DirPaths.AppRoot.Path);
+    }
+
+    [Fact]
+    public void WhenComperableNamesAreUsed_TheSameDirPathIsReturned()
+    {
+        var child1 = DirPaths.GetDir("CHILD");
+        var child2 = DirPaths.GetDir("child");
+        var child3 = DirPaths.GetDir(" Child ");
+        XAssert.Same(child1, child2);
+        XAssert.Same(child2, child3);
+    }
+
+    [Fact]
+    public void DirectoryCreatedOnlyIfCheckedPath()
+    {
+
+        var name = "Fmbm.Dir.Test.TestDir";
+        var path = Path.Combine(DirPaths.AppRoot.Path, name);
+        var dirInfo = new DirectoryInfo(path);
+        if (dirInfo.Exists)
+        {
+            throw new InvalidOperationException(
+                $"Test Dir Already Exists! :{dirInfo.FullName}");
+        }
+        try
+        {
+            var dirPath = DirPaths.GetDir(name);
+            var _ = dirPath.Path;
+            dirInfo.Refresh();
+            Assert.False(dirInfo.Exists);
+
+            var _1 = dirPath.CheckedPath;
+            dirInfo.Refresh();
+            Assert.True(dirInfo.Exists);
+        }
+        finally
+        {
+            dirInfo.Delete();
+        }
     }
 }
