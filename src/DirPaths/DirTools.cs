@@ -1,3 +1,6 @@
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("DirPaths.Test")]
+
 namespace Fmbm.Dir;
 
 public static class DirTools
@@ -16,8 +19,10 @@ public static class DirTools
 
     internal static bool NamesAreEqual(this string name1, string name2)
     {
-        return 0 ==
-            StringComparer.InvariantCultureIgnoreCase.Compare(name1, name2);
+        return
+            (name1 != null) &&
+                (StringComparer
+                    .InvariantCultureIgnoreCase.Compare(name1, name2) == 0);
     }
 
     public static string? NameIs(this string? path, string name)

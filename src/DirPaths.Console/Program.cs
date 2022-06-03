@@ -9,6 +9,4 @@ Console.WriteLine("Hello, World!");
 // );
 // Console.WriteLine(DirPaths.AppRoot.Path);
 
-var child1 = DirPaths.GetDir("CHILD");
-var child2 = DirPaths.GetDir("child");
-var child3 = DirPaths.GetDir(" Childs ");
+Console.WriteLine(StringComparer.InvariantCultureIgnoreCase.Compare(null, null));
