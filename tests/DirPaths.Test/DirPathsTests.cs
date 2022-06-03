@@ -1,17 +1,21 @@
+[assembly: TestCaseOrderer("Fmbm.Dir.Test.AlphabeticOrderer", "DirPaths.Test")]
+
 namespace Fmbm.Dir.Test;
 
 using Xunit.Abstractions;
 using Xunit.Sdk;
-using XAssert = Xunit.Assert;
 
-public class AlphabeticalOrderer : ITestCaseOrderer
+// I think I picked this up from: 
+// https://www.thecodebuzz.com/order-unit-test-cases-or-integration-testing-guidelines/
+public class AlphabeticOrderer : ITestCaseOrderer
 {
-    public IEnumerable<TTestCase> OrderTestCases<TTestCase>(
-        IEnumerable<TTestCase> testCases) where TTestCase : ITestCase =>
-        testCases.OrderBy(testCase => testCase.TestMethod.Method.Name);
+    public IEnumerable<TTestCase> OrderTestCases<TTestCase>(IEnumerable<TTestCase> testCases)
+        where TTestCase : ITestCase
+    {
+        return testCases.OrderBy(testCase => testCase.TestMethod.Method.Name);
+    }
 }
 
-[TestCaseOrderer("AlphabeticalOrderer", "DirPaths.Testss")]
 public class DirPathsTests
 {
     public void SetAndCheckPath()
@@ -20,6 +24,10 @@ public class DirPathsTests
         DirPaths.SetAppRootPath(path);
         XAssert.Equal(path, DirPaths.AppRoot.Path);
     }
+
+    /* Yes, I used static state, deal with it. So most of the following
+       tests are commented out because they are mutually incompatible.
+    */
 
     // [Fact]
     // public void WhenNoUserConfig_APathIsReturned()
@@ -89,7 +97,7 @@ public class DirPathsTests
 
     /*
         Because I was very naughty and chose to use a static class, most of
-        the above tests are mutually exclusive.  Although not as thorough
+        the above tests are mutually incompatible.  Although not as thorough
         nor clear, this compund test should cover many of the cases above.
     */
     [Fact]
@@ -110,16 +118,6 @@ public class DirPathsTests
         var _1 = XAssert.Throws<InvalidOperationException>(tryClear);
 
         XAssert.Equal(third, DirPaths.AppRoot.Path);
-    }
-
-    [Fact]
-    public void WhenComperableNamesAreUsed_TheSameDirPathIsReturned()
-    {
-        var child1 = DirPaths.GetDir("CHILD");
-        var child2 = DirPaths.GetDir("child");
-        var child3 = DirPaths.GetDir(" Child ");
-        XAssert.Same(child1, child2);
-        XAssert.Same(child2, child3);
     }
 
     [Fact]
@@ -149,5 +147,15 @@ public class DirPathsTests
         {
             dirInfo.Delete();
         }
+    }
+
+    [Fact]
+    public void WhenComperableNamesAreUsed_TheSameDirPathIsReturned()
+    {
+        var child1 = DirPaths.GetDir("CHILD");
+        var child2 = DirPaths.GetDir("child");
+        var child3 = DirPaths.GetDir(" Child ");
+        XAssert.Same(child1, child2);
+        XAssert.Same(child2, child3);
     }
 }
