@@ -33,7 +33,6 @@ public static class DirPaths
     public static DirPath GetDir(string name)
     {
         var key = Key(name);
-        Console.WriteLine($"{name} -> {key}");
         lock (lockObj)
         {
             if (!namedDirs.TryGetValue(key, out var child))
@@ -57,6 +56,7 @@ public static class DirPaths
     public static DirPath EtcDir => GetDir("etc");
     public static DirPath LogDir => GetDir("log");
     public static DirPath TempDir => GetDir("temp");
+    public static DirPath UploadDir => GetDir("upload");
 
     public class DirPath
     {

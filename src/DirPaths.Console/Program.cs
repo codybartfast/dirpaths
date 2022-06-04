@@ -9,4 +9,18 @@ Console.WriteLine("Hello, World!");
 // );
 // Console.WriteLine(DirPaths.AppRoot.Path);
 
-Console.WriteLine(StringComparer.InvariantCultureIgnoreCase.Compare(null, null));
+// Get path for <AppRoot>/etc but don't create it if it doesn't exist
+string etcDir = DirPaths.EtcDir.Path;
+
+// Get path for <AppRoot>/temp and create it if needed.
+string tempDir = DirPaths.TempDir.CheckedPath;
+
+// Get path for <AppRoot>/cat (and create it if needed)
+string catDir = DirPaths.GetDir("cats").CheckedPath;
+
+// Specify custom path for 'data' and 'dog'.
+DirPaths.DataDir.Path = @"C:\Users\Public\FMBM\Data";
+DirPaths.GetDir("dog").Path = @"C:\Users\Public\FMBM\Dogs";
+
+var _ = DirPaths.DataDir.CheckedPath;
+_ = DirPaths.GetDir("dog").CheckedPath;
