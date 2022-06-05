@@ -34,8 +34,8 @@ public class DirToolsTests
     {
         var apple = "Apple";
         var banana = "Banana";
-        var path1 = @$"C:\{apple}\{banana}";
-        var path2 = @$"C:\{apple}\{banana}\";
+        var path1 = $"/{apple}/{banana}";
+        var path2 = $"/{apple}/{banana}/";
 
         XAssert.Null(nullStr.NameIs("blah"));
         XAssert.Null(nullStr.NameIs(null!));
@@ -51,21 +51,21 @@ public class DirToolsTests
     {
         Assert.Null(nullStr.Parent());
 
-        Assert.Equal(@"C:\Apple", @"C:\Apple\Banana".Parent());
-        Assert.Equal(@"C:\", @"C:\Apple\".Parent());
-        Assert.Null(@"C:\".Parent());
+        Assert.Equal("/Apple", "/Apple/Banana".Parent());
+        Assert.Equal("/", "/Apple/".Parent());
+        Assert.Null("/".Parent());
     }
 
     [Fact]
     public void SearchUpTests()
     {
         Assert.Null(nullStr.SearchUp("blah"));
-        Assert.Null(@"C:\Apple\Banana".SearchUp("cherry"));
+        Assert.Null("/Apple/Banana".SearchUp("cherry"));
 
-        Assert.Equal(@"C:\Apple", @"C:\Apple\Banana".SearchUp("Apple"));
-        Assert.Equal(@"C:\Apple\", @"C:\Apple\".SearchUp("Apple"));
-        Assert.Equal(@"C:\Apple\Banana\Apple",
-            @"C:\Apple\Banana\Apple".SearchUp("Apple"));
+        Assert.Equal("/Apple", "/Apple/Banana".SearchUp("Apple"));
+        Assert.Equal("/Apple/", "/Apple/".SearchUp("Apple"));
+        Assert.Equal("/Apple/Banana/Apple",
+            "/Apple/Banana/Apple".SearchUp("Apple"));
     }
 
     [Fact]
@@ -73,10 +73,10 @@ public class DirToolsTests
     {
         Assert.Null(nullStr.Sibling("blah"));
 
-        Assert.Equal(@"C:\Apple\Cherry", @"C:\Apple\Banana".Sibling("Cherry"));
-        Assert.Equal(@"C:\Apple\Banana", @"C:\Apple\Banana".Sibling("Banana"));
+        Assert.Equal("/Apple/Cherry", "/Apple/Banana".Sibling("Cherry"));
+        Assert.Equal("/Apple/Banana", "/Apple/Banana".Sibling("Banana"));
 
-        Assert.Null(@"C:\".Sibling("Banana"));
+        Assert.Null("/".Sibling("Banana"));
     }
 
     [Fact]
@@ -84,7 +84,7 @@ public class DirToolsTests
     {
         Assert.Null(nullStr.SubDir("blah"));
 
-        Assert.Equal(@"C:\Apple\Banana\Cherry", @"C:\Apple\Banana".SubDir("Cherry"));
-        Assert.Equal(@"C:\Apple", @"C:\".SubDir("Apple"));
+        Assert.Equal("/Apple/Banana/Cherry", "/Apple/Banana".SubDir("Cherry"));
+        Assert.Equal("/Apple", "/".SubDir("Apple"));
     }
 }

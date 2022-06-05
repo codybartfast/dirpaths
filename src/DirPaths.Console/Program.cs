@@ -19,8 +19,10 @@ string tempDir = DirPaths.TempDir.CheckedPath;
 string catDir = DirPaths.GetDir("cats").CheckedPath;
 
 // Specify custom path for 'data' and 'dog'.
-DirPaths.DataDir.Path = @"C:\Users\Public\FMBM\Data";
-DirPaths.GetDir("dog").Path = @"C:\Users\Public\FMBM\Dogs";
+DirPaths.DataDir.Path = @"FMBM_Sample/Data";
+DirPaths.GetDir("dog").Path = @"FMBM_Sample/Dogs";
 
 var _ = DirPaths.DataDir.CheckedPath;
 _ = DirPaths.GetDir("dog").CheckedPath;
+
+Console.WriteLine(DirPaths.GetDir("dog").Path);
