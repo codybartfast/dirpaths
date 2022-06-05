@@ -1,4 +1,17 @@
+using System.Text.RegularExpressions;
+
 namespace Fmbm.Dir.Test;
+
+public static class XPlat{
+    public static string? Psx(this string? text){
+        if(text is null){
+            return null;
+        }
+        text = Regex.Replace(text, @"^\w:\\", "/");
+        text = text.Replace(@"\", "/");
+        return text;
+    }
+}
 
 public class DirToolsTests
 {
@@ -49,42 +62,42 @@ public class DirToolsTests
     [Fact]
     public void ParentTests()
     {
-        Assert.Null(nullStr.Parent());
+        XAssert.Null(nullStr.Parent());
 
-        Assert.Equal("/Apple", "/Apple/Banana".Parent());
-        Assert.Equal("/", "/Apple/".Parent());
-        Assert.Null("/".Parent());
+        XAssert.Equal("/Apple", "/Apple/Banana".Parent().Psx());
+        XAssert.Equal("/", "/Apple/".Parent().Psx());
+        XAssert.Null("/".Parent().Psx());
     }
 
     [Fact]
     public void SearchUpTests()
     {
-        Assert.Null(nullStr.SearchUp("blah"));
-        Assert.Null("/Apple/Banana".SearchUp("cherry"));
+        XAssert.Null(nullStr.SearchUp("blah"));
+        XAssert.Null("/Apple/Banana".SearchUp("cherry"));
 
-        Assert.Equal("/Apple", "/Apple/Banana".SearchUp("Apple"));
-        Assert.Equal("/Apple/", "/Apple/".SearchUp("Apple"));
-        Assert.Equal("/Apple/Banana/Apple",
-            "/Apple/Banana/Apple".SearchUp("Apple"));
+        XAssert.Equal("/Apple", "/Apple/Banana".SearchUp("Apple").Psx());
+        XAssert.Equal("/Apple/", "/Apple/".SearchUp("Apple").Psx());
+        XAssert.Equal("/Apple/Banana/Apple",
+            "/Apple/Banana/Apple".SearchUp("Apple").Psx());
     }
 
     [Fact]
     public void SiblingTests()
     {
-        Assert.Null(nullStr.Sibling("blah"));
+        XAssert.Null(nullStr.Sibling("blah"));
 
-        Assert.Equal("/Apple/Cherry", "/Apple/Banana".Sibling("Cherry"));
-        Assert.Equal("/Apple/Banana", "/Apple/Banana".Sibling("Banana"));
+        XAssert.Equal("/Apple/Cherry", "/Apple/Banana".Sibling("Cherry").Psx());
+        XAssert.Equal("/Apple/Banana", "/Apple/Banana".Sibling("Banana").Psx());
 
-        Assert.Null("/".Sibling("Banana"));
+        XAssert.Null("/".Sibling("Banana"));
     }
 
     [Fact]
     public void SubDirTests()
     {
-        Assert.Null(nullStr.SubDir("blah"));
+        XAssert.Null(nullStr.SubDir("blah"));
 
-        Assert.Equal("/Apple/Banana/Cherry", "/Apple/Banana".SubDir("Cherry"));
-        Assert.Equal("/Apple", "/".SubDir("Apple"));
+        XAssert.Equal("/Apple/Banana/Cherry", "/Apple/Banana".SubDir("Cherry").Psx());
+        XAssert.Equal("/Apple", "/".SubDir("Apple").Psx());
     }
 }
