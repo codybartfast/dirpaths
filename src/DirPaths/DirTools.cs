@@ -101,7 +101,7 @@ public static class DirTools
         {
             return null;
         }
-        var debugPath = path.Sibling(new DirectoryInfo(path).Name + "-debug");
+        var debugPath = path.Sibling(new DirectoryInfo(path).Name + "-Debug");
         return Directory.Exists(debugPath) ? debugPath : path;
 #else
         return path;
