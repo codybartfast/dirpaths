@@ -68,22 +68,6 @@ public static class DirTools
         return null;
     }
 
-    public static string? Sibling(this string? path, string name)
-    {
-        if (path is null)
-        {
-            return null;
-        }
-
-        var parent = new DirectoryInfo(path).Parent;
-        if (parent is null)
-        {
-            return null;
-        }
-
-        return Path.Combine(parent.FullName, name);
-    }
-
     public static string? SubDir(this string? path, string name)
     {
         if (path is null)
@@ -93,6 +77,22 @@ public static class DirTools
         return Path.Combine(path, name);
     }
 
+    public static string? Sibling(this string? path, string name)
+    {
+        return path.Parent().SubDir(name);
+        // if (path is null)
+        // {
+        //     return null;
+        // }
+
+        // var parent = new DirectoryInfo(path).Parent;
+        // if (parent is null)
+        // {
+        //     return null;
+        // }
+
+        // return Path.Combine(parent.FullName, name);
+    }
 
     public static string? ExistingDebug(this string? path)
     {

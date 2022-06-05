@@ -106,7 +106,7 @@ public class DirPathsTests
         var third = "AppRoot";
         XAssert.False(DirPaths.SetAppRootPath(null, null, null));
         DirPaths.AppRoot.Path = "Second";
-        DirPaths.ClearAppRoot();
+        DirPaths.ClearAppRootPath();
         XAssert.True(DirPaths.SetAppRootPath(null, null, third, "Fourth", null));
 
         XAssert.Equal(third, DirPaths.AppRoot.Path);
@@ -114,7 +114,7 @@ public class DirPathsTests
         Action trySet = () => DirPaths.SetAppRootPath(null, "Fifth");
         var _ = XAssert.Throws<InvalidOperationException>(trySet);
 
-        Action tryClear = () => DirPaths.ClearAppRoot();
+        Action tryClear = () => DirPaths.ClearAppRootPath();
         var _1 = XAssert.Throws<InvalidOperationException>(tryClear);
 
         XAssert.Equal(third, DirPaths.AppRoot.Path);
@@ -137,11 +137,11 @@ public class DirPathsTests
             var dirPath = DirPaths.GetDir(name);
             var _ = dirPath.Path;
             dirInfo.Refresh();
-            Assert.False(dirInfo.Exists);
+            XAssert.False(dirInfo.Exists);
 
             var _1 = dirPath.CheckedPath;
             dirInfo.Refresh();
-            Assert.True(dirInfo.Exists);
+            XAssert.True(dirInfo.Exists);
         }
         finally
         {

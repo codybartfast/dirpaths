@@ -23,13 +23,13 @@ public static class RootPresets
         return RootPresets.Base.SearchUp("bin").Sibling("AppRoot");
     }
 
-    public static string? Fmbm(string environmentVariableName = DefaultEnvironmentVariableName)
+    public static string Fmbm(string environmentVariableName = DefaultEnvironmentVariableName)
     {
         return new string?[]{
             RootPresets.EnvironmentVariable(environmentVariableName),
             RootPresets.BinParent(),
             RootPresets.AnyBinAppRootSibling().ExistingDebug(),
             RootPresets.Current
-        }.FirstNonNull();
+        }.FirstNonNull()!;
     }
 }

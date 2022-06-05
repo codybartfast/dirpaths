@@ -25,7 +25,7 @@ public static class DirPaths
         return false;
     }
 
-    public static void ClearAppRoot(params string?[] paths)
+    public static void ClearAppRootPath(params string?[] paths)
     {
         AppRoot.ClearPath();
     }
