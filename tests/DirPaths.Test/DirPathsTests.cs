@@ -21,7 +21,7 @@ public class DirPathsTests
     public void SetAndCheckPath()
     {
         string path = DateTime.UtcNow.ToString("o");
-        DirPaths.SetAppRootPath(path);
+        DirPaths.SetAppRoot(path);
         XAssert.Equal(path, DirPaths.AppRoot.Path);
     }
 
@@ -58,14 +58,14 @@ public class DirPathsTests
     //     var tryRead = (() => DirPaths.AppRoot.Path);
     //     var _ = Assert.Throws<InvalidOperationException>(tryRead);
 
-    //     Action trySet = (() => DirPaths.SetAppRootPath("Second"));
+    //     Action trySet = (() => DirPaths.SetAppRoot("Second"));
     //     var _1 = Assert.Throws<InvalidOperationException>(trySet);
     // }
 
     // [Fact]
     // public void WhenPathIsCleared_PathCanBeSet()
     // {
-    //     DirPaths.SetAppRootPath("Second");
+    //     DirPaths.SetAppRoot("Second");
     //     DirPaths.ClearAppRoot();
     //     SetAndCheckPath();
     // }
@@ -79,18 +79,18 @@ public class DirPathsTests
     // }
 
     // [Fact]
-    // public void SetAppRootPath_WhenAllAreNull_PathIsNotSet_AndReturnsFalse()
+    // public void SetAppRoot_WhenAllAreNull_PathIsNotSet_AndReturnsFalse()
     // {
-    //     var r = DirPaths.SetAppRootPath(null, null);
+    //     var r = DirPaths.SetAppRoot(null, null);
     //     Assert.NotNull(DirPaths.AppRoot.Path);
     //     Assert.False(r);
     // }
 
     // [Fact]
-    // public void SetAppRootPath_FirstNonNullStingIsUsed_AndReturnsTrue()
+    // public void SetAppRoot_FirstNonNullStingIsUsed_AndReturnsTrue()
     // {
     //     var second = "Second";
-    //     var r = DirPaths.SetAppRootPath(null, null, second, "Third");
+    //     var r = DirPaths.SetAppRoot(null, null, second, "Third");
     //     XAssert.Equal(second, DirPaths.AppRoot.Path);
     //     XAssert.True(r);
     // }
@@ -104,17 +104,17 @@ public class DirPathsTests
     public void Compound_Test()
     {
         var third = "AppRoot";
-        XAssert.False(DirPaths.SetAppRootPath(null, null, null));
+        XAssert.False(DirPaths.SetAppRoot(null, null, null));
         DirPaths.AppRoot.Path = "Second";
-        DirPaths.ClearAppRootPath();
-        XAssert.True(DirPaths.SetAppRootPath(null, null, third, "Fourth", null));
+        DirPaths.ClearAppRoot();
+        XAssert.True(DirPaths.SetAppRoot(null, null, third, "Fourth", null));
 
         XAssert.Equal(third, DirPaths.AppRoot.Path);
 
-        Action trySet = () => DirPaths.SetAppRootPath(null, "Fifth");
+        Action trySet = () => DirPaths.SetAppRoot(null, "Fifth");
         var _ = XAssert.Throws<InvalidOperationException>(trySet);
 
-        Action tryClear = () => DirPaths.ClearAppRootPath();
+        Action tryClear = () => DirPaths.ClearAppRoot();
         var _1 = XAssert.Throws<InvalidOperationException>(tryClear);
 
         XAssert.Equal(third, DirPaths.AppRoot.Path);

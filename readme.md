@@ -78,9 +78,9 @@ exception).
 
 ``Path`` can be set any number of times before it it is got.
 
-By default AppRoot and subdirectories will have a (non null) value.
+By default AppRoot and subdirectories will have a non-null value.
 
-The AppRoot Path can be cleared.  An InvalidOperationException will be
+The AppRoot Path can be cleared.  An InvalidOperationException will be raised
 if the Path's value is got while in a cleared state (I.e. before a new
 value has been set).
 
@@ -88,7 +88,7 @@ value has been set).
 
 Default AppRoot
 ---------------
-By default DirPaths.AppRoot.Path will be set to the first successful rule:
+The default DirPaths.AppRoot.Path will be set by the first successful rule:
   1. Use the value stored in the FMBM_APPROOT environment variable.
 
   2. If the name of the Base directory (see 4. below) is ``bin`` then use the 
@@ -120,13 +120,12 @@ The AppRoot.Path can only be set before its value has been read.
 The AppRoot can be changed at runtime by setting the ``FMBM_APPROOT``
 environment variable.
 
-### SetAppRootPath
+### SetAppRoot
 
-``DirPaths.SetAppRootPath`` is a helper function that takes an arbitary number of strings and sets the AppRoot path to the first non-null value.  If all the values are null then
-the AppRoot path is unchanged.
+``DirPaths.SetAppRoot(path1, path2, ...)`` is a helper function that takes an arbitary number of strings and sets the AppRoot path to the first non-null value.  If all the values are null then the AppRoot path is unchanged.
 
-### ClearAppRootPath
-``DirPaths.ClearAppRootPath`` clears any AppRoot path.  This is useful if you
+### ClearAppRoot
+``DirPaths.ClearAppRoot()`` clears any AppRoot path.  This is useful if you
 do not want to use the default path and to make sure only an explicitly set 
 path is used.
 
@@ -195,22 +194,85 @@ Examples
 
 These are examples of how to set the AppRoot.  See [usage](#usage) above for
 examples of how to get and set the path of its sub directories.
-
-(The examples use ``/`` so that they should work on both Windows and *nix based
-systems.  The output contains ``\`` because the examples were run Windows.)
-
+  
+Set a hard coded path
 ```
-// using Fmbm.Dir
+DirPaths.SetAppRoot(@"C:\Apple\Banana\Cherry");
 
-// Use default AppRoot:
-Console.WriteLine(DirPaths.EtcDir.Path);
-
-// output: FMBM_Sample/Berry\etc
-
-
-/ 
+// EtcDir.Path is C:\Apple\Banana\Cherry\etc
 ```
+<br/>
 
+Use the value of a the FRUIT_APPROOT environment variable but fallback 
+to default AppRoot if the environment variable is not set:
+```
+Environment.SetEnvironmentVariable("FRUIT_APPROOT", @"D:\Fruity");
+DirPaths.SetAppRoot(RootPresets.EnvironmentVariable("FRUIT_APPROOT"));
+
+// EtcDir.Path is D:\Fruity\etc or the default <AppRoot>\etc if the
+// environment variable is not set.
+```
+<br/>
+
+Use the value of a the FRUIT_APPROOT environment variable but
+throw an exception if the environment variable is not set:
+```
+// If the environment variable is set:
+DirPaths.ClearAppRoot();
+Environment.SetEnvironmentVariable("FRUIT_APPROOT", @"D:\Fruity");
+DirPaths.SetAppRoot(RootPresets.EnvironmentVariable("FRUIT_APPROOT"));
+
+// EtcDir.Path is D:\Fruity\etc
+
+// Or if the environment variable is not set:
+DirPaths.ClearAppRoot();
+DirPaths.SetAppRoot(RootPresets.EnvironmentVariable("FRUIT_APPROOT"));
+
+// InvalidOperationException is thrown when EtcDir.Path is got.
+```
+<br>
+
+If the Base directory is named `Cherry` then use its parent as the AppRoot (otherwise fallback to the default):
+```
+DirPaths.SetAppRoot(RootPresets.Base.NameIs("Cherry").Parent());
+
+// If the Base directory is C:\Apple\Banana\Cherry then EtcDir.Path is 
+// C:\Apple\Banana\etc
+```
+<br>
+
+If any parent of the Base directory is called `Apple` then use a sibling of
+that directory named `Basket`, otherwise fail:
+```
+DirPaths.ClearAppRoot();
+DirPaths.SetAppRoot(RootPresets.Base.SearchUp("Apple").Sibling("Basket"));
+
+// If the Base directory is C:\Apple\Banana\Cherry then EtcDir.Path is 
+// C:\\Basket\etc. If 'Apple' is not found then an InvalidOperationException
+// is thrown
+ 
+```
+<br>
+
+Use the process's Current working directory:
+```
+DirPaths.SetAppRoot(RootPresets.Current);
+```
+<br>
+
+Try four of the above rules and use the first that works:
+```
+DirPaths.ClearAppRoot();
+DirPaths.SetAppRoot(
+    RootPresets.EnvironmentVariable("FRUIT_APPROOT"),
+    RootPresets.Base.NameIs("Cherry").Parent(),
+    RootPresets.Base.SearchUp("Apple").Sibling("Basket"),
+    RootPresets.Current
+);
+```
+The `ClearAppRoot()` in the above shouldn't have any effect in this case because
+`RootPresets.Current` should always have a non-null value so it should not
+be possible to fallback to the default path.
 
 
 [Fubu]: <https://fubumvc.github.io/>

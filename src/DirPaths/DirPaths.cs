@@ -9,12 +9,12 @@ public static class DirPaths
     static DirPaths()
     {
         AppRoot = new DirPath("AppRoot");
-        SetAppRootPath(RootPresets.Fmbm());
+        SetAppRoot(RootPresets.Fmbm());
     }
 
     public static DirPath AppRoot { get; }
 
-    public static bool SetAppRootPath(params string?[] paths)
+    public static bool SetAppRoot(params string?[] paths)
     {
         var path = paths.FirstNonNull();
         if (path is not null)
@@ -25,7 +25,7 @@ public static class DirPaths
         return false;
     }
 
-    public static void ClearAppRootPath(params string?[] paths)
+    public static void ClearAppRoot(params string?[] paths)
     {
         AppRoot.ClearPath();
     }
