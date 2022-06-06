@@ -34,8 +34,8 @@ _For Us, By Us_ project, but there is no other connection.)
 
 Contents
 --------
-  - [Basic Usage](#basic-usage)
-  - [Set Before Use](#set-before-use)
+  - [Usage](#usage)
+  - [Set Before Get](#set-before-get)
   - [Default AppRoot](#default-approot)
   - [Changing The AppRoot](#changing-the-approot)
   - [AppRoot Presets](#approot-presets)
@@ -45,17 +45,23 @@ Contents
 
 ----------------------------------------------------------------------------
 
-Basic Usage
------------
+Usage
+-----
+``archive``, ``data``, ``download``, ``etc``, ``log``, ``temp`` and ``upload`` are predefined.  Other top level directories can be accessed using ``GetDir(name)``.
+
+The ``Path`` property returns the path string for the directory.  ``CheckedPath``
+checks if the directory exists and creates it if doesn't before returning the
+path string for directory.
+
     using Fmbm.Dir;
 
-    // Get path for <AppRoot>/etc but don't create it if it doesn't exist
+    // Get path for <AppRoot>/etc but does not create it if it does not exist
     string etcDir = DirPaths.EtcDir.Path;
 
     // Get path for <AppRoot>/temp and create it if needed.
     string tempDir = DirPaths.TempDir.CheckedPath;
 
-    // Get path for <AppRoot>/cat (and create it if needed)
+    // Get path for <AppRoot>/cats (and create it if needed)
     string catDir = DirPaths.GetDir("cats").CheckedPath;
 
     // Specify custom path for 'data' and 'dog'.
@@ -64,13 +70,13 @@ Basic Usage
 
 ----------------------------------------------------------------------------
 
-Set Before Use
+Set Before Get
 --------------
-No Path property can be set after it has been got.  So all gets of a given
-Path property will always return the same value (or all will raise the same
+No ``Path`` property can be set after it has been got.  So all gets of a given
+``Path`` property will always return the same value (or all will raise the same
 exception).
 
-A path can be set any number of times before it it is got.
+``Path`` can be set any number of times before it it is got.
 
 By default AppRoot and subdirectories will have a (non null) value.
 
@@ -101,8 +107,7 @@ By default DirPaths.AppRoot.Path will be set to the first successful rule:
   been manually created beforehand.  (This would allow Release and Debug builds
   to run with different environments.)
 
-  4. If none of the above rules match, then use the 
-  [Base directory][MSBaseDir].  This is usually the directory containing the application's executable.
+  4. If none of the above rules match, then use the [Base directory][MSBaseDir].  This is usually the directory containing the application's executable.
 
 ----------------------------------------------------------------------------
 
@@ -181,12 +186,31 @@ to ``<name>-Debug`` is returned, otherwise ``path`` is returned.
 
 Extensibility
 -------------
-None
+None.
 
 ----------------------------------------------------------------------------
 
 Examples
 --------
+
+These are examples of how to set the AppRoot.  See [usage](#usage) above for
+examples of how to get and set the path of its sub directories.
+
+(The examples use ``/`` so that they should work on both Windows and *nix based
+systems.  The output contains ``\`` because the examples were run Windows.)
+
+```
+// using Fmbm.Dir
+
+// Use default AppRoot:
+Console.WriteLine(DirPaths.EtcDir.Path);
+
+// output: FMBM_Sample/Berry\etc
+
+
+/ 
+```
+
 
 
 [Fubu]: <https://fubumvc.github.io/>
