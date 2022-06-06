@@ -80,18 +80,6 @@ public static class DirTools
     public static string? Sibling(this string? path, string name)
     {
         return path.Parent().SubDir(name);
-        // if (path is null)
-        // {
-        //     return null;
-        // }
-
-        // var parent = new DirectoryInfo(path).Parent;
-        // if (parent is null)
-        // {
-        //     return null;
-        // }
-
-        // return Path.Combine(parent.FullName, name);
     }
 
     public static string? ExistingDebug(this string? path)

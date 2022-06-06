@@ -129,8 +129,9 @@ environment variable.
 ### SetAppRoot
 
 `DirPaths.SetAppRoot(path1, path2, ...)` is a helper function that takes 
-an arbitary number of strings and sets the AppRoot to the first non-null 
-value.  If all the values are null then the AppRoot path is unchanged.
+an arbitary number of strings, if any are non-null it sets the AppRoot to
+the first non-null value and returns `true`.  If all the values are null
+then the AppRoot path is unchanged and it retursn `false`.
 
 ### ClearAppRoot
 `DirPaths.ClearAppRoot()` clears any AppRoot path.  This is useful if you

@@ -2,7 +2,7 @@ namespace Fmbm.Dir;
 
 public static class DirPaths
 {
-    static readonly object lockObj = new Object();
+    static readonly object dirsLock = new Object();
     static readonly Dictionary<string, DirPath> namedDirs =
         new Dictionary<string, DirPath>();
 
@@ -33,7 +33,7 @@ public static class DirPaths
     public static DirPath GetDir(string name)
     {
         var key = Key(name);
-        lock (lockObj)
+        lock (dirsLock)
         {
             if (!namedDirs.TryGetValue(key, out var child))
             {
@@ -62,7 +62,7 @@ public static class DirPaths
     {
         string? path = null;
         bool pathHasBeenRead = false;
-        readonly object lockObj = new Object();
+        readonly object pathLock = new Object();
 
         internal DirPath(string moniker, string? path = null)
         {
@@ -76,14 +76,13 @@ public static class DirPaths
         {
             get
             {
-                lock (lockObj)
+                lock (pathLock)
                 {
                     pathHasBeenRead = true;
                 }
                 if (path is null)
                 {
-                    var errMsg =
-                        $"Cannot get path for {Moniker} before it has been set.";
+                    var errMsg = $"Path for {Moniker} is not set.";
                     throw new InvalidOperationException(errMsg);
                 }
                 return path;
@@ -96,12 +95,14 @@ public static class DirPaths
 
         void SetPath(string? newPath)
         {
-            lock (lockObj)
+            lock (pathLock)
             {
                 if (pathHasBeenRead)
                 {
                     var errMsg =
-                        $"Cannot set path for {Moniker} to {newPath} after the existing value, {path}, has already been read.";
+                        $"Cannot set path for {Moniker} to {newPath} "
+                        + $"after the existing value, {path}, has already "
+                        + "been read.";
                     throw new InvalidOperationException(errMsg);
                 }
                 this.path = newPath;

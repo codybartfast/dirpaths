@@ -9,10 +9,10 @@ using Xunit.Sdk;
 // https://www.thecodebuzz.com/order-unit-test-cases-or-integration-testing-guidelines/
 public class AlphabeticOrderer : ITestCaseOrderer
 {
-    public IEnumerable<TTestCase> OrderTestCases<TTestCase>(IEnumerable<TTestCase> testCases)
-        where TTestCase : ITestCase
+    public IEnumerable<TTestCase> OrderTestCases<TTestCase>(
+        IEnumerable<TTestCase> testCases) where TTestCase : ITestCase
     {
-        return testCases.OrderBy(testCase => testCase.TestMethod.Method.Name);
+        return testCases.OrderBy(@case => @case.TestMethod.Method.Name);
     }
 }
 
@@ -40,7 +40,6 @@ public class DirPathsTests
     // {
     //     SetAndCheckPath();
     // }
-
 
     // [Fact]
     // public void AfterPathIsRead_ItCannotBeSet()
@@ -100,6 +99,7 @@ public class DirPathsTests
         the above tests are mutually incompatible.  Although not as thorough
         nor clear, this compund test should cover many of the cases above.
     */
+
     [Fact]
     public void Compound_Test()
     {
