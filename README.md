@@ -111,9 +111,9 @@ The default DirPaths.AppRoot.Path will be set by the first successful rule:
   created beforehand.  (This would allow Release and Debug builds to run 
   with different environments.)
 
-  4. If none of the above rules match, then use the [Base directory]
-  [MSBaseDir].  This is usually the directory containing the application's 
-  executable.
+  4. If none of the above rules match, then use the 
+  [Base directory][MSBaseDir].  This is usually the directory containing the
+  application's   executable.
 
 ----------------------------------------------------------------------------
 
@@ -123,29 +123,29 @@ Changing The AppRoot
 The AppRoot.Path can only be set before its value has been read. 
 
 ### Runtime
-The AppRoot can be changed at runtime by setting the ``FMBM_APPROOT``
+The AppRoot can be changed at runtime by setting the `FMBM_APPROOT`
 environment variable.
 
 ### SetAppRoot
 
-``DirPaths.SetAppRoot(path1, path2, ...)`` is a helper function that takes 
+`DirPaths.SetAppRoot(path1, path2, ...)` is a helper function that takes 
 an arbitary number of strings and sets the AppRoot to the first non-null 
 value.  If all the values are null then the AppRoot path is unchanged.
 
 ### ClearAppRoot
-``DirPaths.ClearAppRoot()`` clears any AppRoot path.  This is useful if you
+`DirPaths.ClearAppRoot()` clears any AppRoot path.  This is useful if you
 do not want to use the default path and to make sure only an explicitly set 
 path is used.
 
 ### AppRoot.Path
-``DirPaths.AppRoot.Path`` can be set directly, like subdirectories can, it
+`DirPaths.AppRoot.Path` can be set directly, like subdirectories can, it
 will not accept a null value.
 
 ----------------------------------------------------------------------------
 
 AppRoot Presets
 ---------------
-The ``RootPresets`` class contains properties and methods for some 
+The `RootPresets` class contains properties and methods for some 
 predefined rules for choosing the AppRoot directory.
 
   - `RootPresets.Base` The applications [Base directory][MSBaseDir].  (Used
@@ -160,7 +160,7 @@ predefined rules for choosing the AppRoot directory.
   - `RootPresets.EnvironmentVariable(NAME)` The value stored in the `<NAME>`
   environment variable - can be null.
 
-  - ``RootPresets.BinParent()`` The value described in the second rule to 
+  - `RootPresets.BinParent()` The value described in the second rule to 
   find the [Default AppRoot](#default-approot) - can be null.
 
   - `RootPresets.AnyBinAppRootSibling()` The value described in the third
@@ -169,8 +169,8 @@ predefined rules for choosing the AppRoot directory.
   - `RootPresets.FMBM()` The function that combines all four rules to find
   the [Default AppRoot](#default-approot).
 
-  - ``RootPresets.FMBM(NAME)`` The same as `FMBM()` except it checks the
-  ``<NAME>`` environment variable instead of the `FMBM_APPROOT`
+  - `RootPresets.FMBM(NAME)` The same as `FMBM()` except it checks the
+  `<NAME>` environment variable instead of the `FMBM_APPROOT`
   environment variable.
 
 ----------------------------------------------------------------------------
@@ -181,19 +181,23 @@ Helper methods used by the RootPesets.  These are extension methods to
 `string` that can accept (and then return) a null value and return `null` to
 indicate failure.  Name comparison is case insensitive.
 
-  - ``path.NameIs(name)`` returns ``path`` if the directory's name matches ``name`` otherwise ``null``.
+  - `path.NameIs(name)` returns `path` if the directory's name matches 
+  `name` otherwise `null`.
 
-  - ``path.Parent()`` return ``path``'s parent directory path or ``null`` if ``path``is the root directory or it is null.
+  - `path.Parent()` return `path`'s parent directory path or `null` if 
+  `path` is the root directory or it is null.
 
-  - ``path.SearchUp(name)`` if ``path`` or any of its parent directories match the name ``name`` then that directory's path is returned, otherwize ``null``.
+  - `path.SearchUp(name)` if `path` or any of its parent directories match
+  the name `name` then that directory's path is returned, otherwize `null`.
 
-  - ``path.SubDir(name)`` the subdirectory of ``path`` with name ``name``, or ``null``if ``path`` is null.
+  - `path.SubDir(name)` the subdirectory of `path` with name `name`, or 
+  `null` if `path` is null.
 
-  - ``path.Sibling(name)`` equivalent to ``path.Parent().SubDir(name)``
+  - `path.Sibling(name)` equivalent to `path.Parent().SubDir(name)`
 
-  - ``path.ExistingDebug()`` if the application is a Debug build and a sibling 
-to ``path`` already exists that has the name ``<name>-Debug`` then the path 
-to ``<name>-Debug`` is returned, otherwise ``path`` is returned.  
+  - `path.ExistingDebug()` if the application is a Debug build and a sibling
+  to `path` already exists that has the name `<name>-Debug` then the path to
+  `<name>-Debug` is returned, otherwise `path` is returned.  
 
 ----------------------------------------------------------------------------
 
@@ -217,8 +221,8 @@ DirPaths.SetAppRoot(@"C:\Apple\Banana\Cherry");
 ```
 <br/>
 
-Use the value of a the FRUIT_APPROOT environment variable but fallback 
-to default AppRoot if the environment variable is not set:
+Use the value of a the FRUIT_APPROOT environment variable but fallback to
+default AppRoot if the environment variable is not set:
 ```
 Environment.SetEnvironmentVariable("FRUIT_APPROOT", @"D:\Fruity");
 DirPaths.SetAppRoot(RootPresets.EnvironmentVariable("FRUIT_APPROOT"));
@@ -228,8 +232,8 @@ DirPaths.SetAppRoot(RootPresets.EnvironmentVariable("FRUIT_APPROOT"));
 ```
 <br/>
 
-Use the value of a the FRUIT_APPROOT environment variable but
-throw an exception if the environment variable is not set:
+Use the value of a the FRUIT_APPROOT environment variable but throw an
+exception if the environment variable is not set:
 ```
 // If the environment variable is set:
 DirPaths.ClearAppRoot();
@@ -246,7 +250,8 @@ DirPaths.SetAppRoot(RootPresets.EnvironmentVariable("FRUIT_APPROOT"));
 ```
 <br>
 
-If the Base directory is named `Cherry` then use its parent as the AppRoot (otherwise fallback to the default):
+If the Base directory is named `Cherry` then use its parent as the AppRoot
+(otherwise fallback to the default):
 ```
 DirPaths.SetAppRoot(RootPresets.Base.NameIs("Cherry").Parent());
 
@@ -284,8 +289,9 @@ DirPaths.SetAppRoot(
     RootPresets.Current
 );
 ```
-The `ClearAppRoot()` in the above shouldn't have any effect in this case because
-`RootPresets.Current` should always have a non-null value so it should naver fallback to the default path.
+The `ClearAppRoot()` in the above shouldn't have any effect in this case
+because `RootPresets.Current` should always have a non-null value so it
+should naver fallback to the default path.
 
 
 [Fubu]: <https://fubumvc.github.io/>
