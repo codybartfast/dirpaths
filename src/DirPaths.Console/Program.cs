@@ -1,7 +1,7 @@
 ﻿using Fmbm.Dir;
 
+DirPaths.ClearAppRoot();
 DirPaths.SetAppRoot(
-    RootPresets.Base.SearchUp("Stuff").Sibling("Basket")
+    RootPresets.Base.SearchUp("src").Sibling("AppRoot")
 );
 Console.WriteLine(DirPaths.EtcDir.Path);
-
