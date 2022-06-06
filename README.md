@@ -111,8 +111,8 @@ The default DirPaths.AppRoot.Path will be set by the first successful rule:
 
 ----------------------------------------------------------------------------
 
-Changing The AppRoot Path
--------------------------
+Changing The AppRoot
+--------------------
 
 The AppRoot.Path can only be set before its value has been read. 
 
