@@ -177,15 +177,16 @@ predefined rules for choosing the AppRoot directory.
 
 DirTools
 --------
-Helper methods used by the RootPesets.  These are extension methods to 
-`string` that can accept (and then return) a null value and return `null` to
-indicate failure.  Name comparison is case insensitive.
+The `DirTools` class contains helper methods used by the RootPesets.  These
+are extension methods of `string`.  They use `null` to indicate failure so
+all the methods can accept `null` as input, which will then be the return
+value.  Name comparison is case insensitive.
 
   - `path.NameIs(name)` returns `path` if the directory's name matches 
   `name` otherwise `null`.
 
-  - `path.Parent()` return `path`'s parent directory path or `null` if 
-  `path` is the root directory or it is null.
+  - `path.Parent()` return `path`'s parent path or `null` if `path` is the
+  root directory or it is null.
 
   - `path.SearchUp(name)` if `path` or any of its parent directories match
   the name `name` then that directory's path is returned, otherwize `null`.
@@ -193,7 +194,7 @@ indicate failure.  Name comparison is case insensitive.
   - `path.SubDir(name)` the subdirectory of `path` with name `name`, or 
   `null` if `path` is null.
 
-  - `path.Sibling(name)` equivalent to `path.Parent().SubDir(name)`
+  - `path.Sibling(name)` is equivalent to `path.Parent().SubDir(name)`
 
   - `path.ExistingDebug()` if the application is a Debug build and a sibling
   to `path` already exists that has the name `<name>-Debug` then the path to
