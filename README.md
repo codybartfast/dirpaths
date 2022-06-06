@@ -1,7 +1,7 @@
 DirPaths
 ========
 
-Tools to help with local directories used by an application.  E.g.:
+A tool to help with the local directories used by an application.  E.g.: 
 
 ```
 <AppRoot>
@@ -17,18 +17,14 @@ Tools to help with local directories used by an application.  E.g.:
 
 Features:
   * Default rules for determining the AppRoot without configuration.
-  * Tools for setting the AppRoot with code or configuration.
+  * Custom rules for determining the AppRoot.
   * Configure alternate paths for top level subdirectories.
-  * Thread Safe
+  * Thread Safe.
 
 
 For Me, By Me (FMBM)
 --------------------
-This package is primarily intended for use by the author.  It has only been
-tested with Console applications on Windows and MacOS.  It is aimed at getting ad-hoc
-applications up and running quickly.  It is not intended for complex,
-production, nor evolving projects.  (The name is inspired by the [Fubu][Fubu]
-_For Us, By Us_ project, but there is no other connection.)
+This package is primarily intended for use by the author.  It has only been tested with Console applications on Windows and MacOS.  It intended for getting ad-hoc applications up and running quickly.  It probably is not suitable for complex, production, nor evolving projects.  (The name is inspired by the [Fubu][Fubu] _For Us, By Us_ project, but there is no other connection.)
 
 ----------------------------------------------------------------------------
 
@@ -49,16 +45,14 @@ Usage
 -----
 ``archive``, ``data``, ``download``, ``etc``, ``log``, ``temp`` and ``upload`` are predefined.  Other top level directories can be accessed using ``GetDir(name)``.
 
-The ``Path`` property returns the path string for the directory.  ``CheckedPath``
-checks if the directory exists and creates it if doesn't before returning the
-path string for directory.
+The ``Path`` property returns the path string for the directory.  ``CheckedPath`` checks if the directory exists and creates it if doesn't exist.
 
     using Fmbm.Dir;
 
-    // Get path for <AppRoot>/etc but does not create it if it does not exist
+    // Get path for <AppRoot>/etc but do not create it if it does not exist
     string etcDir = DirPaths.EtcDir.Path;
 
-    // Get path for <AppRoot>/temp and create it if needed.
+    // Get path for <AppRoot>/temp and create it if needed
     string tempDir = DirPaths.TempDir.CheckedPath;
 
     // Get path for <AppRoot>/cats (and create it if needed)
@@ -73,16 +67,15 @@ path string for directory.
 Set Before Get
 --------------
 No ``Path`` property can be set after it has been got.  So all gets of a given
-``Path`` property will always return the same value (or all will raise the same
+``Path`` property will always return the same value (or all will throw the same
 exception).
 
 ``Path`` can be set any number of times before it it is got.
 
 By default AppRoot and subdirectories will have a non-null value.
 
-The AppRoot Path can be cleared.  An InvalidOperationException will be raised
-if the Path's value is got while in a cleared state (I.e. before a new
-value has been set).
+The AppRoot Path can be cleared.  An InvalidOperationException will be thrown if `Path`'s value is got while it is clear. (I.e. before a new
+value has been set.)
 
 ----------------------------------------------------------------------------
 
@@ -92,8 +85,7 @@ The default DirPaths.AppRoot.Path will be set by the first successful rule:
   1. Use the value stored in the FMBM_APPROOT environment variable.
 
   2. If the name of the Base directory (see 4. below) is ``bin`` then use the 
-  parent of that directory as the AppRoot.  E.g., if the Base directory is
-  ``...\apps\myapp\bin`` then ``...\apps\myapp\`` will be the AppRoot.  This is useful for deploying applications using a tree structure similar to that at the top of this page.
+  parent of that directory as the AppRoot.  E.g., if the Base directory is ``...\apps\myapp\bin`` then ``...\apps\myapp\`` will be the AppRoot.  This is useful for deploying applications using a tree structure similar to that at the top of this page when the executable is in the `bin` directory.
 
   3. If one of the parent directories of the Base dir is named ``bin`` then
   use a sibling of that ``bin`` directory named ``AppRoot``.  This is useful for
