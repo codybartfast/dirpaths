@@ -2,11 +2,23 @@
 
   <PropertyGroup>
     <Version>1.0.0-beta.1</Version>
-    <TargetFramework>net6.0</TargetFramework>
+    <Description>DirPaths is tiny tool for locating local application directories like etc, data and log.</Description>
     <AssemblyName>Fmbm.DirPaths</AssemblyName>
+    <AssemblyTitle>Directory Paths</AssemblyTitle>
+    <Authors>John Donnellan</Authors>
+    <PackageTags>Directory;Paths;etc;FMBM;DirPaths;AppRoot</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/codybartfast/dirpaths</RepositoryUrl> 
+    <RepositoryType>git</RepositoryType> 
+
+    <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>Nullable</WarningsAsErrors>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 </Project>

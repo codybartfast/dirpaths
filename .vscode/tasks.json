@@ -15,6 +15,22 @@
             "problemMatcher": "$msCompile"
         },
         {
+            "label": "pack",
+            "command": "dotnet",
+            "type": "process",
+            "options": {
+                "cwd": "${workspaceFolder}/src/DirPaths"
+            },
+            "args": [
+                "pack",
+                "-c",
+                "Release",
+                "-o",
+                "../../../nuget"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
             "label": "publish",
             "command": "dotnet",
             "type": "process",
