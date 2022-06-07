@@ -154,11 +154,11 @@ predefined rules for choosing the AppRoot directory.
 
   - `RootPresets.Current` The process's current working directory.
 
-  - `RootPresets.EnvironmentVariable()` The value stored in the 
+  - `RootPresets.Environment()` The value stored in the 
   `FMBM_APPROOT` environment variable.  (Used by the first rule to find the 
   [Default AppRoot](#default-approot).)  - can be null.
 
-  - `RootPresets.EnvironmentVariable(NAME)` The value stored in the `<NAME>`
+  - `RootPresets.Environment(NAME)` The value stored in the `<NAME>`
   environment variable - can be null.
 
   - `RootPresets.BinParent()` The value described in the second rule to 
@@ -227,7 +227,7 @@ Use the value of a the FRUIT_APPROOT environment variable but fallback to
 default AppRoot if the environment variable is not set:
 ```
 Environment.SetEnvironmentVariable("FRUIT_APPROOT", @"D:\Fruity");
-DirPaths.SetAppRoot(RootPresets.EnvironmentVariable("FRUIT_APPROOT"));
+DirPaths.SetAppRoot(RootPresets.Environment("FRUIT_APPROOT"));
 
 // EtcDir.Path is D:\Fruity\etc or the default <AppRoot>\etc if the
 // environment variable is not set.
@@ -240,7 +240,7 @@ exception if the environment variable is not set:
 // If the environment variable is set:
 DirPaths.ClearAppRoot();
 Environment.SetEnvironmentVariable("FRUIT_APPROOT", @"D:\Fruity");
-DirPaths.SetAppRoot(RootPresets.EnvironmentVariable("FRUIT_APPROOT"));
+DirPaths.SetAppRoot(RootPresets.Environment("FRUIT_APPROOT"));
 
 // EtcDir.Path is D:\Fruity\etc
 
@@ -285,7 +285,7 @@ Try four of the above rules and use the first that works:
 ```
 DirPaths.ClearAppRoot();
 DirPaths.SetAppRoot(
-    RootPresets.EnvironmentVariable("FRUIT_APPROOT"),
+    RootPresets.Environment("FRUIT_APPROOT"),
     RootPresets.Base.NameIs("Cherry").Parent(),
     RootPresets.Base.SearchUp("Apple").Sibling("Basket"),
     RootPresets.Current

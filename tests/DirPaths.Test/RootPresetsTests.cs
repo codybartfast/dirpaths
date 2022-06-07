@@ -43,20 +43,20 @@ public class RootPresetsTests
         var value2 = "some stinky streaks";
         SetDefault(null!);
         SetOther(null!);
-        XAssert.Null(RootPresets.EnvironmentVariable());
-        XAssert.Null(RootPresets.EnvironmentVariable(
+        XAssert.Null(RootPresets.Environment());
+        XAssert.Null(RootPresets.Environment(
             RootPresets.DefaultEnvironmentVariableName));
-        XAssert.Null(RootPresets.EnvironmentVariable(otherEnvVarName));
+        XAssert.Null(RootPresets.Environment(otherEnvVarName));
 
         SetDefault(value);
-        XAssert.Equal(value, RootPresets.EnvironmentVariable());
-        XAssert.Equal(value, RootPresets.EnvironmentVariable(
+        XAssert.Equal(value, RootPresets.Environment());
+        XAssert.Equal(value, RootPresets.Environment(
             RootPresets.DefaultEnvironmentVariableName));
-        XAssert.Null(RootPresets.EnvironmentVariable(otherEnvVarName));
+        XAssert.Null(RootPresets.Environment(otherEnvVarName));
 
         SetOther(value2);
-        XAssert.Equal(value, RootPresets.EnvironmentVariable());
-        XAssert.Equal(value2, RootPresets.EnvironmentVariable(otherEnvVarName));
+        XAssert.Equal(value, RootPresets.Environment());
+        XAssert.Equal(value2, RootPresets.Environment(otherEnvVarName));
     }
 
 }

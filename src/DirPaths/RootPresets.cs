@@ -8,9 +8,10 @@ public static class RootPresets
 
     public static string Current => Directory.GetCurrentDirectory();
 
-    public static string? EnvironmentVariable(string name = DefaultEnvironmentVariableName)
+    public static string? Environment(
+        string variableName = DefaultEnvironmentVariableName)
     {
-        return Environment.GetEnvironmentVariable(name);
+        return System.Environment.GetEnvironmentVariable(variableName);
     }
 
     public static string? BinParent()
@@ -27,7 +28,7 @@ public static class RootPresets
         string environmentVariableName = DefaultEnvironmentVariableName)
     {
         return new string?[]{
-            RootPresets.EnvironmentVariable(environmentVariableName),
+            RootPresets.Environment(environmentVariableName),
             RootPresets.BinParent(),
             RootPresets.AnyBinAppRootSibling().ExistingDebug(),
             RootPresets.Current
