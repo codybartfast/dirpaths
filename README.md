@@ -1,7 +1,7 @@
 DirPaths
 ========
 
-A tool to help with the local directories used by an application.  E.g.: 
+A tiny tool for locating local application directories.  E.g.: 
 
 ```
 <AppRoot>
@@ -28,8 +28,8 @@ This package is primarily intended for use by the author.  It has only been
 tested with Console applications on Windows and MacOS.  It intended for 
 getting ad-hoc applications up and running quickly.  It probably is not 
 suitable for complex, production, nor evolving projects.  (The name is 
-inspired by the [Fubu][Fubu] _For Us, By Us_ project, but there is no other 
-connection.)
+inspired by the [Fubu][Fubu], _For Us, By Us_, project, but there is no 
+other connection.)
 
 ----------------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ Usage
 `upload` are predefined.  Other top level directories can be accessed 
 using `GetDir(name)`.
 
-The `Path` property returns the path for the directory.  `CheckedPath` 
+The `Path` property returns the path for the directory.  `CheckedPath` first
 checks if the directory exists and creates it if doesn't exist.
 
     using Fmbm.Dir;
@@ -74,13 +74,13 @@ checks if the directory exists and creates it if doesn't exist.
 
 Set Before Get
 --------------
-No `Path` property can be set after it has been got.  So all gets of a given 
-`Path` property will always return the same value (or all will throw the 
-same exception).
+No `Path` property can be set after it has been got.  So all `get`s of a 
+given `Path` property will always return the same value (or all will throw
+the same exception).
 
 `Path` can be set any number of times before it it is got.
 
-By default AppRoot and subdirectories will have a non-null value.
+By default AppRoot and subdirectories will have non-null values.
 
 The AppRoot Path can be cleared.  An InvalidOperationException will be
 thrown if `Path`'s value is got while it is clear. (I.e. before a new value
@@ -97,13 +97,13 @@ The default DirPaths.AppRoot.Path will be set by the first successful rule:
   parent of that directory as the AppRoot.  E.g., if the Base directory  is
   `...\apps\myapp\bin` then `...\apps\myapp\` will be the AppRoot.  This is
   useful for deploying applications using a tree structure similar to that 
-  at the top of this page when the executable is in the `bin` directory.
+  at the top of this page and the executable is in the `bin` directory.
 
-  3. If one of the parent directories of the Base dir is named `bin` then
-  use a sibling of that `bin` directory named `AppRoot`.  This is useful for
-  running the application under Visual Studio.  If the Base directory is
-  `..\Project\bin\Debug\net9.0` then the AppRoot will be: 
-  `..\Project\AppRoot\`.\
+  3. If one of the parent directories of the Base directory is named `bin`
+  then use a sibling of that `bin` directory named `AppRoot`.  This is 
+  useful for running the application under Visual Studio.  E.g., If the Base
+  directory is `...\Project\bin\Debug\net9.0` then the AppRoot will be:
+  `...\Project\AppRoot\`.\
  \
   However, if the application is a Debug build and the directory 
   `AppRoot-Debug` _already_ exists, then that will be used instead.  It will
@@ -113,7 +113,7 @@ The default DirPaths.AppRoot.Path will be set by the first successful rule:
 
   4. If none of the above rules match, then use the 
   [Base directory][MSBaseDir].  This is usually the directory containing the
-  application's   executable.
+  application's executable.
 
 ----------------------------------------------------------------------------
 
@@ -129,9 +129,9 @@ environment variable.
 ### SetAppRoot
 
 `DirPaths.SetAppRoot(path1, path2, ...)` is a helper function that takes 
-an arbitary number of strings, if any are non-null it sets the AppRoot to
+an arbitrary number of strings, if any are non-null it sets the AppRoot to
 the first non-null value and returns `true`.  If all the values are null
-then the AppRoot path is unchanged and it retursn `false`.
+then the AppRoot path is unchanged and it returns `false`.
 
 ### ClearAppRoot
 `DirPaths.ClearAppRoot()` clears any AppRoot path.  This is useful if you
@@ -167,10 +167,10 @@ predefined rules for choosing the AppRoot directory.
   - `RootPresets.AnyBinAppRootSibling()` The value described in the third
   rule to find the [Default AppRoot](#default-approot) - can be null.
 
-  - `RootPresets.FMBM()` The function that combines all four rules to find
+  - `RootPresets.Fmbm()` The function that combines all four rules to find
   the [Default AppRoot](#default-approot).
 
-  - `RootPresets.FMBM(NAME)` The same as `FMBM()` except it checks the
+  - `RootPresets.Fmbm(NAME)` The same as `FMBM()` except it checks the
   `<NAME>` environment variable instead of the `FMBM_APPROOT`
   environment variable.
 
@@ -178,19 +178,19 @@ predefined rules for choosing the AppRoot directory.
 
 DirTools
 --------
-The `DirTools` class contains helper methods used by the RootPesets.  These
+The `DirTools` class contains helper methods used by `RootPesets`.  These
 are extension methods of `string`.  They use `null` to indicate failure so
-all the methods can accept `null` as input, which will then be the return
+all the methods can accept `null` as input, which would then be the return
 value.  Name comparison is case insensitive.
 
   - `path.NameIs(name)` returns `path` if the directory's name matches 
   `name` otherwise `null`.
 
   - `path.Parent()` return `path`'s parent path or `null` if `path` is the
-  root directory or it is null.
+  root directory or `path` is null.
 
   - `path.SearchUp(name)` if `path` or any of its parent directories match
-  the name `name` then that directory's path is returned, otherwize `null`.
+  the name `name` then that directory's path is returned, otherwise `null`.
 
   - `path.SubDir(name)` the subdirectory of `path` with name `name`, or 
   `null` if `path` is null.
@@ -293,7 +293,7 @@ DirPaths.SetAppRoot(
 ```
 The `ClearAppRoot()` in the above shouldn't have any effect in this case
 because `RootPresets.Current` should always have a non-null value so it
-should naver fallback to the default path.
+should never fallback to the default path.
 
 
 [Fubu]: <https://fubumvc.github.io/>
