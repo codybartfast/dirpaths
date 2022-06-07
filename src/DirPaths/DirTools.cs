@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("DirPaths.Test")]
 
-namespace Fmbm.Dir;
+namespace Fmbm.Paths;
 
 public static class DirTools
 {

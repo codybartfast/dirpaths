@@ -1,4 +1,4 @@
-namespace Fmbm.Dir.Test;
+namespace Fmbm.Paths.Test;
 
 public class RootPresetsTests
 {

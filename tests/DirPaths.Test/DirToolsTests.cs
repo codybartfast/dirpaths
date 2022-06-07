@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Fmbm.Dir.Test;
+namespace Fmbm.Paths.Test;
 
 public static class XPlat{
     public static string? Psx(this string? text){

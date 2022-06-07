@@ -1,4 +1,4 @@
-﻿using Fmbm.Dir;
+﻿using Fmbm.Paths;
 
 DirPaths.ClearAppRoot();
 DirPaths.SetAppRoot(

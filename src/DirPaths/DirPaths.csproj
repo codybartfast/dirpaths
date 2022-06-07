@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Version>1.0.0-alpha.1</Version>
     <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>Fmbm.DirPaths</AssemblyName>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>Nullable</WarningsAsErrors>
-    <Version>1.0.0-alpha.1</Version>
   </PropertyGroup>
 
 </Project>

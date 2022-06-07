@@ -1,4 +1,4 @@
-namespace Fmbm.Dir;
+namespace Fmbm.Paths;
 
 public static class DirPaths
 {
