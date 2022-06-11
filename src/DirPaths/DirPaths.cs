@@ -1,12 +1,13 @@
 namespace Fmbm.IO;
 
+using System.Collections.Concurrent;
+
 using Fmbm.IO.StringExtensions;
 
 public static class DirPaths
 {
-    static readonly object dirsLock = new Object();
-    static readonly Dictionary<string, DirPath> namedDirs =
-        new Dictionary<string, DirPath>();
+    static readonly ConcurrentDictionary<string, DirPath> namedDirs =
+        new ConcurrentDictionary<string, DirPath>();
 
     static DirPaths()
     {
@@ -34,17 +35,8 @@ public static class DirPaths
 
     public static DirPath GetDir(string name)
     {
-        var key = Key(name);
-        lock (dirsLock)
-        {
-            if (!namedDirs.TryGetValue(key, out var child))
-            {
-                var childPath = AppRoot.Path.SubDir(name);
-                child = new DirPath(name, childPath);
-                namedDirs.Add(key, child);
-            }
-            return child;
-        }
+        return namedDirs.GetOrAdd(Key(name), _ =>
+             new DirPath(name, AppRoot.Path.SubDir(name)));
     }
 
     static string Key(string name)
