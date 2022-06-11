@@ -3,27 +3,28 @@ DirPaths
 
 A tiny tool for locating local application directories.  E.g.: 
 
-```
-<AppRoot>
-    │
-    ├── bin
-    │
-    ├── etc
-    │
-    ├── data
-    │
-    └── log
+```text
+  <AppRoot>
+      │
+      ├── bin
+      │
+      ├── etc
+      │
+      ├── data
+      │
+      └── log
 ```
 
 Features:
-  * Default rules for determining the AppRoot without configuration.
-  * Custom rules for determining the AppRoot.
-  * Configure alternate paths for top level subdirectories.
-  * Thread Safe.
 
+* Default rules for determining the AppRoot without configuration.
+* Custom rules for determining the AppRoot.
+* Configure alternate paths for top level subdirectories.
+* Thread Safe.
 
 For Me, By Me (FMBM)
 --------------------
+
 This package is primarily intended for use by the author.  It has only been 
 tested with Console applications on Windows and MacOS.  It intended for 
 getting ad-hoc applications up and running quickly.  It probably is not 
@@ -35,19 +36,21 @@ other connection.)
 
 Contents
 --------
-  - [Usage](#usage)
-  - [Set Before Get](#set-before-get)
-  - [Default AppRoot](#default-approot)
-  - [Changing The AppRoot](#changing-the-approot)
-  - [AppRoot Presets](#approot-presets)
-  - [Path Tools](#pathtools)
-  - [Extensibility](#extensibility)
-  - [Examples](#examples)
+
+* [Usage](#usage)
+* [Set Before Get](#set-before-get)
+* [Default AppRoot](#default-approot)
+* [Changing The AppRoot](#changing-the-approot)
+* [AppRoot Presets](#approot-presets)
+* [Path Tools](#pathtools)
+* [Extensibility](#extensibility)
+* [Examples](#examples)
 
 ----------------------------------------------------------------------------
 
 Usage
 -----
+
 `archive`, `data`, `download`, `etc`, `log`, `temp` and 
 `upload` are predefined.  Other top level directories can be accessed 
 using `GetDir(name)`.
@@ -74,6 +77,7 @@ checks if the directory exists and creates it if doesn't exist.
 
 Set Before Get
 --------------
+
 No `Path` property can be set after it has been got.  So all `get`s of a 
 given `Path` property will always return the same value (or all will throw
 the same exception).
@@ -90,7 +94,9 @@ has been set.)
 
 Default AppRoot
 ---------------
+
 The default DirPaths.AppRoot.Path will be set by the first successful rule:
+
   1. Use the value stored in the FMBM_APPROOT environment variable.
 
   2. If the name of the Base directory (see 4. below) is `bin` then use the
@@ -123,6 +129,7 @@ Changing The AppRoot
 The AppRoot.Path can only be set before its value has been read. 
 
 ### Runtime
+
 The AppRoot can be changed at runtime by setting the `FMBM_APPROOT`
 environment variable.
 
@@ -134,11 +141,13 @@ the first non-null value and returns `true`.  If all the values are null
 then the AppRoot path is unchanged and it returns `false`.
 
 ### ClearAppRoot
+
 `DirPaths.ClearAppRoot()` clears any AppRoot path.  This is useful if you
 do not want to use the default path and to make sure only an explicitly set 
 path is used.
 
 ### AppRoot.Path
+
 `DirPaths.AppRoot.Path` can be set directly, like subdirectories can, it
 will not accept a null value.
 
@@ -146,31 +155,32 @@ will not accept a null value.
 
 AppRoot Presets
 ---------------
+
 The `RootPresets` class contains properties and methods for some 
 predefined rules for choosing the AppRoot directory.
 
-  - `RootPresets.Base` The applications [Base directory][MSBaseDir].  (Used
+* `RootPresets.Base` The applications [Base directory][MSBaseDir].  (Used
   by the fourth rule for finding the [Default AppRoot](#default-approot).)
 
-  - `RootPresets.Current` The process's current working directory.
+* `RootPresets.Current` The process's current working directory.
 
-  - `RootPresets.Environment()` The value stored in the 
+* `RootPresets.Environment()` The value stored in the 
   `FMBM_APPROOT` environment variable.  (Used by the first rule to find the 
   [Default AppRoot](#default-approot).)  - can be null.
 
-  - `RootPresets.Environment(NAME)` The value stored in the `<NAME>`
+* `RootPresets.Environment(NAME)` The value stored in the `<NAME>`
   environment variable - can be null.
 
-  - `RootPresets.BinParent()` The value described in the second rule to 
+* `RootPresets.BinParent()` The value described in the second rule to 
   find the [Default AppRoot](#default-approot) - can be null.
 
-  - `RootPresets.AnyBinAppRootSibling()` The value described in the third
+* `RootPresets.AnyBinAppRootSibling()` The value described in the third
   rule to find the [Default AppRoot](#default-approot) - can be null.
 
-  - `RootPresets.Fmbm()` The function that combines all four rules to find
+* `RootPresets.Fmbm()` The function that combines all four rules to find
   the [Default AppRoot](#default-approot).
 
-  - `RootPresets.Fmbm(NAME)` The same as `FMBM()` except it checks the
+* `RootPresets.Fmbm(NAME)` The same as `FMBM()` except it checks the
   `<NAME>` environment variable instead of the `FMBM_APPROOT`
   environment variable.
 
@@ -178,6 +188,7 @@ predefined rules for choosing the AppRoot directory.
 
 PathTools
 ---------
+
 Namespace: `Fmbm.IO.StringExtensions`
 
 The `PathTools` class contains helper methods used by `RootPesets`.  These
@@ -185,21 +196,21 @@ are extension methods of `string`.  They use `null` to indicate failure so
 all the methods can accept `null` as input, which would then be the return
 value.  Name comparison is case insensitive.
 
-  - `path.NameIs(name)` returns `path` if the directory's name matches 
+* `path.NameIs(name)` returns `path` if the directory's name matches 
   `name` otherwise `null`.
 
-  - `path.Parent()` return `path`'s parent path or `null` if `path` is the
+* `path.Parent()` return `path`'s parent path or `null` if `path` is the
   root directory or `path` is null.
 
-  - `path.SearchUp(name)` if `path` or any of its parent directories match
+* `path.SearchUp(name)` if `path` or any of its parent directories match
   the name `name` then that directory's path is returned, otherwise `null`.
 
-  - `path.SubDir(name)` the subdirectory of `path` with name `name`, or 
+* `path.SubDir(name)` the subdirectory of `path` with name `name`, or 
   `null` if `path` is null.
 
-  - `path.Sibling(name)` is equivalent to `path.Parent().SubDir(name)`
+* `path.Sibling(name)` is equivalent to `path.Parent().SubDir(name)`
 
-  - `path.ExistingDebug()` if the application is a Debug build and a sibling
+* `path.ExistingDebug()` if the application is a Debug build and a sibling
   to `path` already exists that has the name `<name>-Debug` then the path to
   `<name>-Debug` is returned, otherwise `path` is returned.  
 
@@ -207,6 +218,7 @@ value.  Name comparison is case insensitive.
 
 Extensibility
 -------------
+
 None.
 
 ----------------------------------------------------------------------------
@@ -218,27 +230,32 @@ These are examples of how to set the AppRoot.  See [usage](#usage) above for
 examples of how to get and set the path of its sub directories.
   
 Set a hard coded path
-```
+
+```C#
 DirPaths.SetAppRoot(@"C:\Apple\Banana\Cherry");
 
 // EtcDir.Path is C:\Apple\Banana\Cherry\etc
 ```
-<br/>
+
+&nbsp;  
 
 Use the value of a the FRUIT_APPROOT environment variable but fallback to
 default AppRoot if the environment variable is not set:
-```
+
+```C#
 Environment.SetEnvironmentVariable("FRUIT_APPROOT", @"D:\Fruity");
 DirPaths.SetAppRoot(RootPresets.Environment("FRUIT_APPROOT"));
 
 // EtcDir.Path is D:\Fruity\etc or the default <AppRoot>\etc if the
 // environment variable is not set.
 ```
-<br/>
+
+&nbsp;  
 
 Use the value of a the FRUIT_APPROOT environment variable but throw an
 exception if the environment variable is not set:
-```
+
+```C#
 // If the environment variable is set:
 DirPaths.ClearAppRoot();
 Environment.SetEnvironmentVariable("FRUIT_APPROOT", @"D:\Fruity");
@@ -252,21 +269,23 @@ DirPaths.SetAppRoot(RootPresets.EnvironmentVariable("FRUIT_APPROOT"));
 
 // InvalidOperationException is thrown when EtcDir.Path is got.
 ```
-<br>
 
+&nbsp;  
 If the Base directory is named `Cherry` then use its parent as the AppRoot
 (otherwise fallback to the default):
-```
+
+```C#
 DirPaths.SetAppRoot(RootPresets.Base.NameIs("Cherry").Parent());
 
 // If the Base directory is C:\Apple\Banana\Cherry then EtcDir.Path is 
 // C:\Apple\Banana\etc
 ```
-<br>
 
+&nbsp;  
 If any parent of the Base directory is called `Apple` then use a sibling of
 that directory named `Basket`, otherwise fail:
-```
+
+```C#
 DirPaths.ClearAppRoot();
 DirPaths.SetAppRoot(RootPresets.Base.SearchUp("Apple").Sibling("Basket"));
 
@@ -275,16 +294,18 @@ DirPaths.SetAppRoot(RootPresets.Base.SearchUp("Apple").Sibling("Basket"));
 // is thrown.
  
 ```
-<br>
 
+&nbsp;  
 Use the process's Current working directory:
-```
+
+```C#
 DirPaths.SetAppRoot(RootPresets.Current);
 ```
-<br>
 
+&nbsp;  
 Try four of the above rules and use the first that works:
-```
+
+```C#
 DirPaths.ClearAppRoot();
 DirPaths.SetAppRoot(
     RootPresets.Environment("FRUIT_APPROOT"),
@@ -293,6 +314,7 @@ DirPaths.SetAppRoot(
     RootPresets.Current
 );
 ```
+
 The `ClearAppRoot()` in the above shouldn't have any effect in this case
 because `RootPresets.Current` should always have a non-null value so it
 should never fallback to the default path.
