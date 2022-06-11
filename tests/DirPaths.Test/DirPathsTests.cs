@@ -1,6 +1,6 @@
 [assembly: TestCaseOrderer("Fmbm.Paths.Test.AlphabeticOrderer", "DirPaths.Test")]
 
-namespace Fmbm.Paths.Test;
+namespace Fmbm.IO.Test;
 
 using Xunit.Abstractions;
 using Xunit.Sdk;

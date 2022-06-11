@@ -1,9 +1,9 @@
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("DirPaths.Test")]
 
-namespace Fmbm.Paths;
+namespace Fmbm.IO.StringExtensions;
 
-public static class DirTools
+public static class PathTools
 {
     internal static string? FirstNonNull(this string?[] strings)
     {

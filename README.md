@@ -40,7 +40,7 @@ Contents
   - [Default AppRoot](#default-approot)
   - [Changing The AppRoot](#changing-the-approot)
   - [AppRoot Presets](#approot-presets)
-  - [Directory Tools](#dirtools)
+  - [Path Tools](#pathtools)
   - [Extensibility](#extensibility)
   - [Examples](#examples)
 
@@ -176,9 +176,11 @@ predefined rules for choosing the AppRoot directory.
 
 ----------------------------------------------------------------------------
 
-DirTools
---------
-The `DirTools` class contains helper methods used by `RootPesets`.  These
+PathTools
+---------
+Namespace: `Fmbm.IO.StringExtensions`
+
+The `PathTools` class contains helper methods used by `RootPesets`.  These
 are extension methods of `string`.  They use `null` to indicate failure so
 all the methods can accept `null` as input, which would then be the return
 value.  Name comparison is case insensitive.

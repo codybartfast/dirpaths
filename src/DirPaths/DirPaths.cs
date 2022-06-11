@@ -1,4 +1,6 @@
-namespace Fmbm.Paths;
+namespace Fmbm.IO;
+
+using Fmbm.IO.StringExtensions;
 
 public static class DirPaths
 {

@@ -1,6 +1,8 @@
 using System.Text.RegularExpressions;
 
-namespace Fmbm.Paths.Test;
+using Fmbm.IO.StringExtensions;
+
+namespace Fmbm.IO.Test;
 
 public static class XPlat{
     public static string? Psx(this string? text){
@@ -13,18 +15,18 @@ public static class XPlat{
     }
 }
 
-public class DirToolsTests
+public class PathToolsTests
 {
     string? nullStr = null;
 
     [Fact]
     public void FirstNonNullTests()
     {
-        XAssert.Null(DirTools.FirstNonNull(new string[] { }));
-        XAssert.Null(DirTools.FirstNonNull(new string[] { null! }));
-        XAssert.Null(DirTools.FirstNonNull(new string[] { null!, null!, null! }));
+        XAssert.Null(PathTools.FirstNonNull(new string[] { }));
+        XAssert.Null(PathTools.FirstNonNull(new string[] { null! }));
+        XAssert.Null(PathTools.FirstNonNull(new string[] { null!, null!, null! }));
         var firstStr = "BlabbyBigMouth";
-        var actual = DirTools.FirstNonNull(
+        var actual = PathTools.FirstNonNull(
             new string[] { null!, null!, firstStr, "second" });
         XAssert.Equal(firstStr, actual);
     }
@@ -32,14 +34,14 @@ public class DirToolsTests
     [Fact]
     public void NamesAreEqualTests()
     {
-        XAssert.False(DirTools.NamesAreEqual(null!, null!));
-        XAssert.False(DirTools.NamesAreEqual("Apple", null!));
-        XAssert.False(DirTools.NamesAreEqual(null!, "Apple"));
-        XAssert.False(DirTools.NamesAreEqual("Apple", "Banana"));
-        XAssert.False(DirTools.NamesAreEqual("Apple", " Apple"));
+        XAssert.False(PathTools.NamesAreEqual(null!, null!));
+        XAssert.False(PathTools.NamesAreEqual("Apple", null!));
+        XAssert.False(PathTools.NamesAreEqual(null!, "Apple"));
+        XAssert.False(PathTools.NamesAreEqual("Apple", "Banana"));
+        XAssert.False(PathTools.NamesAreEqual("Apple", " Apple"));
 
-        XAssert.True(DirTools.NamesAreEqual("Apple", "Apple"));
-        XAssert.True(DirTools.NamesAreEqual("Apple", "aPPLE"));
+        XAssert.True(PathTools.NamesAreEqual("Apple", "Apple"));
+        XAssert.True(PathTools.NamesAreEqual("Apple", "aPPLE"));
     }
 
     [Fact]
