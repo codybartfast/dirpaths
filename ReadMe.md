@@ -61,7 +61,7 @@ using `GetDir(name)`.
 The `Path` property returns the path for the directory.  `CheckedPath` first
 checks if the directory exists and creates it if doesn't exist.
 
-```C#
+```csharp
     using Fmbm.IO;
 
     // Get path for <AppRoot>/etc but do not create it if it does not exist
@@ -236,7 +236,7 @@ examples of how to get and set the path of its sub directories.
   
 Set a hard coded path
 
-```C#
+```csharp
 DirPaths.SetAppRoot(@"C:\Apple\Banana\Cherry");
 
 // EtcDir.Path is C:\Apple\Banana\Cherry\etc
@@ -247,7 +247,7 @@ DirPaths.SetAppRoot(@"C:\Apple\Banana\Cherry");
 Use the value of a the FRUIT_APPROOT environment variable but fallback to
 default AppRoot if the environment variable is not set:
 
-```C#
+```csharp
 Environment.SetEnvironmentVariable("FRUIT_APPROOT", @"D:\Fruity");
 DirPaths.SetAppRoot(RootPresets.Environment("FRUIT_APPROOT"));
 
@@ -260,7 +260,7 @@ DirPaths.SetAppRoot(RootPresets.Environment("FRUIT_APPROOT"));
 Use the value of a the FRUIT_APPROOT environment variable but throw an
 exception if the environment variable is not set:
 
-```C#
+```csharp
 // If the environment variable is set:
 DirPaths.ClearAppRoot();
 Environment.SetEnvironmentVariable("FRUIT_APPROOT", @"D:\Fruity");
@@ -280,7 +280,7 @@ DirPaths.SetAppRoot(RootPresets.EnvironmentVariable("FRUIT_APPROOT"));
 If the Base directory is named `Cherry` then use its parent as the AppRoot
 (otherwise fallback to the default):
 
-```C#
+```csharp
 DirPaths.SetAppRoot(RootPresets.Base.NameIs("Cherry").Parent());
 
 // If the Base directory is C:\Apple\Banana\Cherry then EtcDir.Path is 
@@ -292,7 +292,7 @@ DirPaths.SetAppRoot(RootPresets.Base.NameIs("Cherry").Parent());
 If any parent of the Base directory is called `Apple` then use a sibling of
 that directory named `Basket`, otherwise fail:
 
-```C#
+```csharp
 DirPaths.ClearAppRoot();
 DirPaths.SetAppRoot(RootPresets.Base.SearchUp("Apple").Sibling("Basket"));
 
@@ -306,7 +306,7 @@ DirPaths.SetAppRoot(RootPresets.Base.SearchUp("Apple").Sibling("Basket"));
 
 Use the process's Current working directory:
 
-```C#
+```csharp
 DirPaths.SetAppRoot(RootPresets.Current);
 ```
 
@@ -314,7 +314,7 @@ DirPaths.SetAppRoot(RootPresets.Current);
 
 Try four of the above rules and use the first that works:
 
-```C#
+```csharp
 DirPaths.ClearAppRoot();
 DirPaths.SetAppRoot(
     RootPresets.Environment("FRUIT_APPROOT"),
