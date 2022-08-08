@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>1.0.1</Version>
+    <Version>1.0.2-beta.0</Version>
     <Description>DirPaths is tiny tool for locating local application directories like etc, data and log.</Description>
     <AssemblyName>Fmbm.DirPaths</AssemblyName>
     <AssemblyTitle>Directory Paths</AssemblyTitle>
     <Authors>John Donnellan</Authors>
-    <PackageTags>Directory;Paths;etc;DirPaths;AppRoot;fmbm</PackageTags>
-    <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/codybartfast/dirpaths</RepositoryUrl> 
+    <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+    <PackageTags>Directory;Paths;etc;DirPaths;AppRoot;fmbm</PackageTags>
     <RepositoryType>git</RepositoryType> 
+    <RepositoryUrl>https://github.com/codybartfast/dirpaths</RepositoryUrl> 
 
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
